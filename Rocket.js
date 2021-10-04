@@ -68,4 +68,16 @@ class Rocket {
         ctx.lineTo(nextPos.x, nextPos.y);
         ctx.stroke();
     }
+
+    evaluate(target) {
+        const d = target.pos.sub(this.position).magnitude();
+        let fitness = window.innerWidth / d;
+        if(this.completed)
+            fitness *= 10;
+        
+        if(this.crashed)
+            fitness /= 10;
+
+        this.fitness = fitness;
+    }
 }

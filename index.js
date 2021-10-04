@@ -1,14 +1,15 @@
-const population = new Population(100);
+const population = new Population(300);
 
 let canvas;
 let ctx;
 
 let frame = 0;
+let generation = 0;
 
 const target = new Target(undefined, 10);
 
 const obstacles = [
-    new Obstacle(new Vector2(100, 250), new Vector2(500, 100))
+    new Obstacle(new Vector2(150, 250), new Vector2(1000, 100))
 ]
 
 function resizeCanvas() {
@@ -16,8 +17,6 @@ function resizeCanvas() {
     canvas.height = window.innerHeight;
 
     ctx = canvas.getContext('2d');
-
-    population.setPos(new Vector2(window.innerWidth / 2, window.innerHeight / 2));
 }
 
 function update() {
@@ -53,6 +52,8 @@ function setup() {
 
     events();
 
+    population.setup();
+
     let interval;
     interval = setInterval(() => {
         
@@ -61,10 +62,16 @@ function setup() {
 
         frame++;
 
-        if(frame > lifespan) {
-            // TODO: implement generations
+        if(frame > lifespan || population.dead()) {
+            generation++;
             frame = 0;
-            clearInterval(interval);
+
+            const pool = population.evaluate(target);
+            population.mate(pool);
+
+            population.setup();
+
+            // clearInterval(interval);
         }
     }, 1000 / tickSpeed);
 }
