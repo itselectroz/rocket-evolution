@@ -1,5 +1,5 @@
 class Obstacle {
-    constructor(pos, size) {
+    constructor(pos, size, target) {
         this.pos = !!pos ? pos : new Vector2(0, 0);
         this.size = !!size ? size : new Vector2(100, 100);
     }

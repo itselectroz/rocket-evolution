@@ -7,6 +7,7 @@ class Rocket {
         this.position = new Vector2(0, 0);
 
         this.crashed = false;
+        this.completed = false;
     }
 
     setPos(pos) {
@@ -23,8 +24,8 @@ class Rocket {
         this.acceleration = this.acceleration.add(force);
     }
 
-    update(frame, obstacles) {
-        if(this.crashed)
+    update(frame, target, obstacles) {
+        if(this.crashed || this.completed)
             return;
 
         this.applyForce(this.dna.genes[frame])
@@ -33,6 +34,8 @@ class Rocket {
         this.position = this.position.add(this.velocity);
         this.acceleration = new Vector2(0, 0);
         this.velocity = this.velocity.limit(maxVelocity);
+
+        this.completed = target.collides(this.position);
 
         if(this.position.x < 0 || this.position.x > window.innerWidth) {
             this.crashed = true;

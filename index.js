@@ -1,9 +1,11 @@
-const rocket = new Rocket();
+const population = new Population(100);
 
 let canvas;
 let ctx;
 
 let frame = 0;
+
+const target = new Target(undefined, 10);
 
 const obstacles = [
     new Obstacle(new Vector2(100, 250), new Vector2(500, 100))
@@ -15,11 +17,11 @@ function resizeCanvas() {
 
     ctx = canvas.getContext('2d');
 
-    rocket.setPos(new Vector2(window.innerWidth / 2, window.innerHeight / 2));
+    population.setPos(new Vector2(window.innerWidth / 2, window.innerHeight / 2));
 }
 
-function update(frame) {
-    rocket.update(frame, obstacles);
+function update() {
+    population.update(frame, target, obstacles);
 }
 
 function draw() {
@@ -29,11 +31,13 @@ function draw() {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, rect.width, rect.height);
 
+    target.draw(ctx);
+
     for(const obstacle of obstacles) {
         obstacle.draw(ctx);
     }
 
-    rocket.draw(ctx);
+    population.draw(ctx);
 }
 
 function events() {
@@ -52,7 +56,7 @@ function setup() {
     let interval;
     interval = setInterval(() => {
         
-        update(frame);
+        update();
         draw();
 
         frame++;
