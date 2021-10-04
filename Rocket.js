@@ -71,7 +71,7 @@ class Rocket {
 
     evaluate(target) {
         const d = target.pos.sub(this.position).magnitude();
-        let fitness = window.innerWidth / d;
+        let fitness = (window.innerWidth * 2) / d;
         if(this.completed)
             fitness *= 10;
         

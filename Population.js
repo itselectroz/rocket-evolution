@@ -17,9 +17,7 @@ class Population {
                 maxFitness = rocket.fitness;
             }
         }
-
-        console.log(maxFitness);
-
+        
         const pool = [];
         for(let i = 0; i < this.size; i++) {
             const rocket = this.members[i];

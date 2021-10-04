@@ -1,4 +1,4 @@
-const population = new Population(300);
+const population = new Population(200);
 
 let canvas;
 let ctx;
