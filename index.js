@@ -1,9 +1,10 @@
-let tickSpeed = 60; // 60 ticks / second
 
 const rocket = new Rocket();
 
 let canvas;
 let ctx;
+
+let frame = 0;
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -11,13 +12,11 @@ function resizeCanvas() {
 
     ctx = canvas.getContext('2d');
 
-    rocket.setPos(new Vector2(10, window.innerHeight / 2));
+    rocket.setPos(new Vector2(window.innerWidth / 2, window.innerHeight / 2));
 }
 
-function update() {
-    rocket.applyForce(new Vector2(10, 0));
-
-    rocket.update();
+function update(frame) {
+    rocket.update(frame);
 }
 
 function draw() {
@@ -43,9 +42,21 @@ function setup() {
 
     events();
 
-    setInterval(() => {
-        update();
+    let interval;
+    interval = setInterval(() => {
+        
+        console.log(rocket.position);
+
+        update(frame);
         draw();
+
+        frame++;
+
+        if(frame > lifespan) {
+            // TODO: implement generations
+            frame = 0;
+            clearInterval(interval);
+        }
     }, 1000 / tickSpeed);
 }
 

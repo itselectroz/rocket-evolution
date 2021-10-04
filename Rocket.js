@@ -1,7 +1,7 @@
-const maxVelocity = 4;
-
 class Rocket {
-    constructor() {
+    constructor(dna) {
+        this.dna = !!dna ? dna : new DNA();
+
         this.acceleration = new Vector2(0, 0);
         this.velocity = new Vector2(0, 0);
         this.position = new Vector2(0, 0);
@@ -21,7 +21,9 @@ class Rocket {
         this.acceleration = this.acceleration.add(force);
     }
 
-    update() {
+    update(frame) {
+        this.applyForce(this.dna.genes[frame])
+
         this.velocity = this.velocity.add(this.acceleration);
         this.position = this.position.add(this.velocity);
         this.acceleration = new Vector2(0, 0);

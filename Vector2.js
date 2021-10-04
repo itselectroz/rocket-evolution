@@ -1,3 +1,7 @@
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
 class Vector2 {
     constructor(x, y) {
         this.x = x;
@@ -37,5 +41,9 @@ class Vector2 {
         else {
             return this;
         }
+    }
+
+    static random(min, max) {
+        return new Vector2(random(min, max), random(min, max))
     }
 }
