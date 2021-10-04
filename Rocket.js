@@ -5,6 +5,8 @@ class Rocket {
         this.acceleration = new Vector2(0, 0);
         this.velocity = new Vector2(0, 0);
         this.position = new Vector2(0, 0);
+
+        this.crashed = false;
     }
 
     setPos(pos) {
@@ -21,16 +23,38 @@ class Rocket {
         this.acceleration = this.acceleration.add(force);
     }
 
-    update(frame) {
+    update(frame, obstacles) {
+        if(this.crashed)
+            return;
+
         this.applyForce(this.dna.genes[frame])
 
         this.velocity = this.velocity.add(this.acceleration);
         this.position = this.position.add(this.velocity);
         this.acceleration = new Vector2(0, 0);
         this.velocity = this.velocity.limit(maxVelocity);
+
+        if(this.position.x < 0 || this.position.x > window.innerWidth) {
+            this.crashed = true;
+        }
+        if(this.position.y < 0 || this.position.y > window.innerHeight) {
+            this.crashed = true;
+        }
+
+        if(!!obstacles && Array.isArray(obstacles)) {
+            for(const obstacle of obstacles) {
+                if(obstacle.collides(this.position)) {
+                    this.crashed = true;
+                    break;
+                }
+            }
+        }
     }
 
     draw(ctx) {
+        if(this.crashed)
+            return; // could make it draw red instead?
+
         const nextPos = this.position.add(this.velocity.mul(2));
         
         ctx.beginPath();

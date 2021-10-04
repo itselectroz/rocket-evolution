@@ -1,10 +1,13 @@
-
 const rocket = new Rocket();
 
 let canvas;
 let ctx;
 
 let frame = 0;
+
+const obstacles = [
+    new Obstacle(new Vector2(100, 250), new Vector2(500, 100))
+]
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -16,7 +19,7 @@ function resizeCanvas() {
 }
 
 function update(frame) {
-    rocket.update(frame);
+    rocket.update(frame, obstacles);
 }
 
 function draw() {
@@ -25,6 +28,10 @@ function draw() {
     // Draw background
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, rect.width, rect.height);
+
+    for(const obstacle of obstacles) {
+        obstacle.draw(ctx);
+    }
 
     rocket.draw(ctx);
 }
@@ -45,8 +52,6 @@ function setup() {
     let interval;
     interval = setInterval(() => {
         
-        console.log(rocket.position);
-
         update(frame);
         draw();
 
